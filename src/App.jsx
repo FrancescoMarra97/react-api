@@ -53,8 +53,9 @@ function App() {
     setTitle(removeTitles)
   }
   function handleClickSend() {
-    fatchData
+    fatchData()
   }
+
   function fetchData(url = "http://localhost:3001/posts") {
     fetch(url)
       .then(res => res.json)
