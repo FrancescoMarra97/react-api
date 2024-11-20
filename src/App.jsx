@@ -53,7 +53,7 @@ function App() {
     setTitle(removeTitles)
   }
   function handleClickSend() {
-    fatchData()
+    fetchData()
   }
 
   function fetchData(url = "http://localhost:3001/posts") {
@@ -62,9 +62,9 @@ function App() {
       .then(data => {
         console.log(data);
         setPostsData(data)
-      }
-      )
+      })
   }
+  /* useEffect(fetchData, []) */
   return (
     <>
 
@@ -81,7 +81,7 @@ function App() {
               placeholder="Add new article title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              required
+            /*  required */
             />
           </div>
           <div className="input-group mb-3">
@@ -196,10 +196,11 @@ function App() {
             />
             <label className="form-check-label" htmlFor=""> Published </label>
           </div>
-          <div>
-            <button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleClickSend}>Send</button>
+          <div className='d-flex'>
+            <div><button className="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button></div>
+            <div className='ml-2'><button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleClickSend}>fetch</button></div>
           </div>
-          <small id='titleHelperId' className='mb-3 form-text text-muted'>type your new title</small>
+          {/*  <small id='titleHelperId' className='mb-3 form-text text-muted'>type your new title</small> */}
         </form >
 
         <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4'>
@@ -221,6 +222,36 @@ function App() {
             </div>)}
 
         </div>
+        <section className='posts'>
+          <div className="container">
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 m-3">
+
+
+              {/* Loop over the results */}
+
+              {
+                postsData.data &&
+
+                postsData.data.map(post => (
+
+                  <div className="col" key={post.id}>
+                    <div className="card">
+                      <img src={post.image} alt="" />
+                      <p>
+                        {post.title}
+                      </p>
+                    </div>
+                  </div>
+
+                ))
+
+              }
+
+
+            </div>
+          </div>
+
+        </section>
       </div >
     </>
   )
