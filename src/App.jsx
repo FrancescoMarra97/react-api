@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import './App.css'
 
@@ -15,28 +15,33 @@ const initialFormData = {
   published: false,
 }
 function App() {
+  const [postsData, setPostsData] = useState({})
   const [titles, setTitle] = useState(article)
   const [newTitle, setNewTitle] = useState("")
   const [formData, setFormData] = useState(initialFormData)
 
   function addArticle(e) {
-    e.preventDefault();
+    e.preventDefault()
+
 
     setTitle([
       ...titles,
       formData.title,
-    ]);
+      formData.image,
+      formData.content,
+      formData.category,
+      formData.tags,
+      formData.published
+    ])
 
-
-    setFormData({ ...formData, title: "" });
-  }
-
-  function handleFormField(e) {
     setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+      ...formData, title: "",
+      image: "",
+      content: "",
+      category: "",
+      tags: [],
+      published
     })
-
   }
 
   function handleTrashTitleClick(e) {
@@ -46,6 +51,18 @@ function App() {
     const removeTitles = titles.filter((title, index) => index != titleIndexToTrash)
     console.log(removeTitles);
     setTitle(removeTitles)
+  }
+  function handleClickSend() {
+    fatchData
+  }
+  function fetchData(url = "http://localhost:3001/posts") {
+    fetch(url)
+      .then(res => res.json)
+      .then(data => {
+        console.log(data);
+        setPostsData(data)
+      }
+      )
   }
   return (
     <>
@@ -62,8 +79,8 @@ function App() {
               className="form-control"
               placeholder="Add new article title"
               value={formData.title}
-              onChange={handleFormField}
-            /* required */
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              required
             />
           </div>
           <div className="input-group mb-3">
@@ -72,7 +89,7 @@ function App() {
               className="form-control"
               placeholder="image"
               value={formData.image}
-              onChange={handleFormField}
+              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
             />
           </div>
           <div className="input-group mb-3">
@@ -80,12 +97,12 @@ function App() {
               className="form-control"
               placeholder="arcticle content"
               value={formData.content}
-              onChange={handleFormField}
+              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
             />
           </div>
           <div className="input-group mb-3 d-flex align-items-center">
             <label className='m-2'>Category: </label>
-            <select className='form-select' value={formData.category} onChange={handleFormField}>
+            <select className='form-select' value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
               <option></option>
               <option value="Sports">Sports</option>
               <option value="Tech">Tech</option>
@@ -173,29 +190,36 @@ function App() {
               type="checkbox"
               className="form-check-input"
               value={formData.published}
-              onChange={handleFormField}
+              onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
 
             />
             <label className="form-check-label" htmlFor=""> Published </label>
           </div>
           <div>
-            <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button>
+            <button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleClickSend}>Send</button>
           </div>
           <small id='titleHelperId' className='mb-3 form-text text-muted'>type your new title</small>
         </form >
 
-        <ul className='list-group'>
-          {titles.map((article, index) =>
-            <li key={index} className='list-group-item d-flex justify-content-between'>
-              {article}
+        <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4'>
+          {titles.map((formData, index) =>
+            <div key={index} className='card d-flex justify-content-between'>
+              <div className="cardHeader"><img src={formData.image} alt={formData.title} /></div>
+              <div className="card-body"> <h3>{formData.title}</h3>
+                <p>{formData.content}</p>
+
+                <p><strong>Category:</strong> {formData.category}</p>
+                <p><strong>Tags:</strong> {formData.tags}</p>
+                <p><strong>Published:</strong> {formData.published ? 'Yes' : 'No'}</p></div>
+
               <button className="btn btn-sm btn-danger" onClick={handleTrashTitleClick} data-index={index}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                   <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                 </svg>
               </button>
-            </li>)}
+            </div>)}
 
-        </ul>
+        </div>
       </div >
     </>
   )
