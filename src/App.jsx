@@ -52,9 +52,7 @@ function App() {
     console.log(removeTitles);
     setTitle(removeTitles)
   }
-  function handleClickSend() {
-    fetchData()
-  }
+
 
   function fetchData(url = "http://localhost:3001/posts") {
     fetch(url)
@@ -63,8 +61,15 @@ function App() {
         console.log(data);
         setPostsData(data)
       })
+      .catch(error => {
+        console.error('Si è verificato un errore:', error);
+      });
   }
-  /* useEffect(fetchData, []) */
+  function handleClickSend() {
+    fetchData,
+      []
+  }
+  useEffect(fetchData, [])
   return (
     <>
 
@@ -198,12 +203,12 @@ function App() {
           </div>
           <div className='d-flex'>
             <div><button className="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button></div>
-            <div className='ml-2'><button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleClickSend}>fetch</button></div>
+            <div className='fetch-button'><button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleClickSend}>fetch</button></div>
           </div>
           {/*  <small id='titleHelperId' className='mb-3 form-text text-muted'>type your new title</small> */}
         </form >
 
-        <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4'>
+        <div className='row g-4 row-cols-1 row-cols-md-2 row-cols-lg-3 m-2'>
           {titles.map((formData, index) =>
             <div key={index} className='card d-flex justify-content-between'>
               <div className="cardHeader"><img src={formData.image} alt={formData.title} /></div>
@@ -227,7 +232,7 @@ function App() {
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 m-3">
 
 
-              {/* Loop over the results */}
+
 
               {
                 postsData.data &&
