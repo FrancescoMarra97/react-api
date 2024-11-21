@@ -15,9 +15,9 @@ const initialFormData = {
   published: false,
 }
 function App() {
-  const [postsData, setPostsData] = useState({})
+  const [postsData, setPostsData] = useState([])
   const [titles, setTitle] = useState(article)
-  const [newTitle, setNewTitle] = useState("")
+  /*   const [newTitle, setNewTitle] = useState("") */
   const [formData, setFormData] = useState(initialFormData)
 
   function addArticle(e) {
@@ -56,7 +56,7 @@ function App() {
 
   function fetchData(url = "http://localhost:3001/posts") {
     fetch(url)
-      .then(res => res.json)
+      .then(res => res.json())
       .then(data => {
         console.log(data);
         setPostsData(data)
@@ -65,10 +65,10 @@ function App() {
         console.error('Si è verificato un errore:', error);
       });
   }
-  function handleClickSend() {
+  /* function handleClickSend() {
     fetchData,
       []
-  }
+  } */
   useEffect(fetchData, [])
   return (
     <>
@@ -203,8 +203,7 @@ function App() {
           </div>
           <div className='d-flex'>
             <div><button className="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button></div>
-            <div className='fetch-button'><button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleClickSend}>fetch</button></div>
-          </div>
+            {/*             <div className='fetch-button'><button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleClickSend}>fetch</button></div>*/}          </div>
           {/*  <small id='titleHelperId' className='mb-3 form-text text-muted'>type your new title</small> */}
         </form >
 
