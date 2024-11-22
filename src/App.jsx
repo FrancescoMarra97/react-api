@@ -1,24 +1,25 @@
 import { useEffect, useState } from 'react'
-
+import AppHeader from "./components/AppHeader.jsx"
 import './App.css'
+import AppArticleForm from './components/ApparticleForm.jsx'
 
 const article = [
 
 ]
 
-const initialFormData = {
+/* const initialFormData = {
   title: "",
   image: "",
   content: "",
   category: "",
   tags: [],
   published: false,
-}
+} */
 function App() {
   const [postsData, setPostsData] = useState([])
   const [titles, setTitle] = useState(article)
-  /*   const [newTitle, setNewTitle] = useState("") */
-  const [formData, setFormData] = useState(initialFormData)
+  //  const [newTitle, setNewTitle] = useState("") 
+  //const [formData, setFormData] = useState(initialFormData) 
 
   function addArticle(e) {
     e.preventDefault()
@@ -61,22 +62,22 @@ function App() {
         console.error('Si è verificato un errore:', error);
       });
   }
-  /* function handleClickSend() {
-    fetchData,
-      []
-  } */
+
   useEffect(() => {
     fetchData();
   }, []);
+
+
   return (
     <>
 
-      <div className="container">
 
+      <div className="container">
+        <AppHeader />
+
+        <AppArticleForm />
         <div>
-          <h1 className='m-4'>New Article</h1>
-        </div>
-        <form onSubmit={addArticle}>
+          {/* <form onSubmit={addArticle}>
           <div className="input-group mb-3">
             <input
               type="text"
@@ -84,7 +85,7 @@ function App() {
               placeholder="Add new article title"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            /*  required */
+            /*  required 
             />
           </div>
           <div className="input-group mb-3">
@@ -201,9 +202,10 @@ function App() {
           </div>
           <div className='d-flex'>
             <div><button className="btn btn-outline-secondary" type="submit" id="button-addon2">Send</button></div>
-            {/*             <div className='fetch-button'><button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleClickSend}>fetch</button></div>*/}          </div>
-          {/*  <small id='titleHelperId' className='mb-3 form-text text-muted'>type your new title</small> */}
-        </form >
+            {//            <div className='fetch-button'><button className="btn btn-outline-secondary" type="submit" id="button-addon2" onClick={handleClickSend}>fetch</button></div>}
+
+
+        </form > */}</div>
 
         <div className='row g-4 row-cols-1 row-cols-md-2 row-cols-lg-3 m-2'>
           {titles.map((formData, index) =>
